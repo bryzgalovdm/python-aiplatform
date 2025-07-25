@@ -562,7 +562,8 @@ def load_model(
     load_method = _FRAMEWORK_SPECS[framework_name]["load_method"]
     model_file = _FRAMEWORK_SPECS[framework_name]["model_file"]
 
-    source_file_uri = os.path.join(model.uri, model_file)
+    # Force forward slash as model will be always loaded from POSIX system of GCP
+    source_file_uri = model.uri + '/' + model_file
     # Tensorflow models can be loaded directly from gcs
     if framework_name == "tensorflow":
         loaded_model = load_method(source_file_uri, model)
